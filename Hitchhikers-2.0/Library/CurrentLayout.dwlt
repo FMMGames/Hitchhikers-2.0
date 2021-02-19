@@ -73,7 +73,7 @@ MonoBehaviour:
   m_MinSize: {x: 408, y: 222}
   m_MaxSize: {x: 8008, y: 4022}
   vertical: 0
-  controlID: 56
+  controlID: 167
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 408, y: 344}
   m_MaxSize: {x: 8008, y: 8044}
   vertical: 1
-  controlID: 55
+  controlID: 166
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 494}
   m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 114
+  controlID: 16
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 494}
   m_MaxSize: {x: 22012, y: 14044}
   vertical: 0
-  controlID: 54
+  controlID: 165
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -591,20 +591,19 @@ MonoBehaviour:
     m_SceneHandles: 
     m_ShowAllHits: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Prefabs/Cars
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: F:\Gabs\Unity\Collab\Hitchhikers\hitchhikers
+  m_LastProjectPath: F:\Gabs\Unity\Collab\Hitchhikers\Hitchhikers-2.0\Hitchhikers-2.0
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 3a300000
     m_LastClickedID: 12346
-    m_ExpandedIDs: 00000000f0380000963900004c4b0000484c0000304d00003c5500005e550000fe580000be5a0000685b00009e5f0000de6100005a6300008a640000e6680000126a0000846d00007275000038760000bc77000044790000587c0000f47e000052800000408200005483000040840000e4880000168900007a8b0000
+    m_ExpandedIDs: 000000000a390000bc390000224700000a4800007c480000d84b00006e4f0000b250000016510000085600002a5600001c580000e0590000645c0000be600000a6640000e06500009a6e0000366f00007877000052780000e0790000947e0000f07e000048810000be820000b8840000dc850000d28600002c890000148a0000408a00006c8b00009c8b0000d48b0000428d0000528e0000f4ac0000f6ac0000f8ac0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -632,7 +631,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000f0380000963900001e4800004c4b0000d44e0000125000006e5000003c5500005e550000fe580000685b00009e5f00005a6300008a640000846d00007275000038760000bc770000587c0000f47e0000528000004082000054830000408400008486000064870000b6880000e4880000168900007a8b000056d200007ed3000004f600000af6000010f60000fadf0200fcdf020008e0020018e002001ee00200
+    m_ExpandedIDs: ffffffff000000000a390000bc390000224700000a4800007c480000d84b00006e4f0000b250000016510000085600002a5600001c580000e0590000645c0000be600000a6640000e06500009a6e0000366f00007877000052780000e0790000947e0000f07e000048810000be820000b8840000dc850000d28600002c890000148a0000408a00006c8b00009c8b0000d48b0000428d0000528e0000f4ac0000f6ac0000f8ac0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -752,23 +751,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 44430000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 6c8fe4ff9a04e5ffec6ae5ffbe6be5ff2a17e6fffc17e6ffe6eee6ffb8efe6fffaaae7ffccabe7ff46fce9ff18fde9ffb84eeaff8a4feaff882aecff2c2cecffce1ff2ffa020f2ff8efbffff3c8e0000be8e0000c68e0000
+      m_ExpandedIDs: 8efbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Main Camera
-        m_OriginalName: Main Camera
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 36386
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 11}
       m_SearchString: 
@@ -839,15 +838,15 @@ MonoBehaviour:
     yGrid:
       m_Target: 1
       speed: 2
-      m_Value: 0
+      m_Value: 1
     zGrid:
       m_Target: 0
       speed: 2
-      m_Value: 1
+      m_Value: 0
   m_Rotation:
     m_Target: {x: 0.26318988, y: 0.36053586, z: -0.10680367, w: 0.88844734}
     speed: 2
-    m_Value: {x: 0.2631898, y: 0.36053574, z: -0.10680363, w: 0.88844705}
+    m_Value: {x: -0.26318988, y: -0.3605359, z: 0.10680368, w: -0.8884474}
   m_Size:
     m_Target: 41.19035
     speed: 2

@@ -130,9 +130,6 @@ public class AIRacerController : MonoBehaviour
         if (currentCar)
             currentCar.hostingAI = false;
 
-        if (!targetCar.touched && !targetCar.touchedByAI)
-            GameManager.instance.EarnScore(myRacer.racerIndex, 0);
-
         transform.SetParent(car.transform);
 
         Invoke("EndJumpState", 0.9f);

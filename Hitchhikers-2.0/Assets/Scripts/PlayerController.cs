@@ -145,12 +145,6 @@ public class PlayerController : MonoBehaviour
         currentCar = targetCar;
         currentCar.hostingPlayer = true;
 
-        if (!currentCar.touched)
-        {
-            currentCar.CoinFX();
-            GameManager.instance.EarnScore(myRacer.racerIndex, 0);
-        }
-
         currentCar.touched = true;
         targetCar = null;
     }

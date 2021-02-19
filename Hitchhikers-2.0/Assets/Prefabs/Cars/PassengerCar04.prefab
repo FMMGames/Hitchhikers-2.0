@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -56,6 +57,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -172,8 +174,13 @@ MonoBehaviour:
   moveSpeed: 12
   spdMultiplier: 2
   coinFX: {fileID: 2484536654500442298}
+  enemyPrefab: {fileID: 6779934444309273251, guid: 7b9d481372730d44292e8c18e4596c2a,
+    type: 3}
   hostingPlayer: 0
+  hostingAI: 0
   touched: 0
+  touchedByAI: 0
+  hostingEnemy: 0
 --- !u!195 &1243309233
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -295,6 +302,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -306,6 +314,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -514,11 +523,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8563488655145220317}
     m_Modifications:
-    - target: {fileID: 7327358871135887294, guid: 9e6071ea27f57e844b43151849ca7778,
-        type: 3}
-      propertyPath: m_Name
-      value: CoinFX
-      objectReference: {fileID: 0}
     - target: {fileID: 5665632643320626495, guid: 9e6071ea27f57e844b43151849ca7778,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -573,6 +577,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327358871135887294, guid: 9e6071ea27f57e844b43151849ca7778,
+        type: 3}
+      propertyPath: m_Name
+      value: CoinFX
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e6071ea27f57e844b43151849ca7778, type: 3}

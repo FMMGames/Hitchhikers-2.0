@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int currentLevel = 1;
     [Range(0,1)]
     public float AIDifficulty;
+    public float enemySpawnRate;
 
     [SerializeField] Camera mainCam;
     [SerializeField] Transform startCamPos, inGameCamPos, endCamPos;
@@ -82,8 +83,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(currentGameState == GameState.InGame)
-        timeSinceLevelStart += Time.deltaTime;
+        if (currentGameState == GameState.InGame)
+            timeSinceLevelStart += Time.deltaTime;
 
         ChangeCameraAngle();
 
@@ -124,7 +125,10 @@ public class GameManager : MonoBehaviour
                 currentGameState = GameState.InGame;
                 break;
             case 2:
-                currentGameState = GameState.EndScreen;
+                {
+                    currentGameState = GameState.EndScreen;
+                    Invoke("NextLevel", 15f);
+                }
                 break;
         }
 
@@ -152,8 +156,8 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        currentLevel++;
         ChangeGameState(0);
+        currentLevel++;
         player.ResetPlayer();
         ResetAI();
         ResetLevel();
@@ -162,6 +166,7 @@ public class GameManager : MonoBehaviour
 
         SaveProgress();
         UIManager.instance.EnableLoadingScreen();
+        timeSinceLevelStart = 0;
     }
 
     void LoadProgress()
@@ -288,11 +293,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EarnScore(int who, int tier)
+    public void EarnKillScore(int who)
     {
-        racerScores[who] += scoreRewardTiers[tier];
+        racerScores[who]++;
+    }
 
-        if (who == 0)
-            playerMoney += scoreRewardTiers[tier];
+    public void EarnMoney(int amount)
+    {
+        playerMoney += amount;
     }
 }

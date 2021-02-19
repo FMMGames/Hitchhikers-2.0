@@ -13,8 +13,9 @@ public class CarController : MonoBehaviour
     public Transform playerSpot;
     public float moveSpeed, spdMultiplier;
     [SerializeField] ParticleSystem coinFX;
+    [SerializeField] GameObject enemyPrefab;
 
-    public bool hostingPlayer, hostingAI, touched, touchedByAI;
+    public bool hostingPlayer, hostingAI, touched, touchedByAI, hostingEnemy;
     Collider jumpRange;
     float d;
 
@@ -27,6 +28,19 @@ public class CarController : MonoBehaviour
     {
         mySelf.speed = (Random.Range(0.75f * moveSpeed, 1.25f * moveSpeed)) * spdMultiplier;
         col = GetComponent<Collider>();
+
+        if(GameManager.instance.enemySpawnRate >= Random.value)
+        {
+            SpawnEnemy();
+        }
+    }
+
+    void SpawnEnemy()
+    {
+        hostingEnemy = true;
+        GameObject enemy = Instantiate(enemyPrefab, playerSpot.transform.position, playerSpot.transform.rotation);
+        enemy.transform.SetParent(playerSpot);
+        enemy.GetComponent<Enemy>().myCar = this;
     }
 
     private void Update()

@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask jumpableLayer, carLayer;
     [SerializeField] GameObject jumpMarker, jumpRangeDisplay;
     [SerializeField] Animator anim;
-    [SerializeField] ParticleSystem confettiFX;
+    [SerializeField] ParticleSystem confettiFX, speedFX;
 
     public CarController currentCar, targetCar;
     [SerializeField] float carDetectionRange, carJumpRange;
@@ -22,6 +22,17 @@ public class PlayerController : MonoBehaviour
     {
         if(GameManager.instance.currentGameState != GameState.EndScreen)
         JumpControl();
+
+        if(GameManager.instance.currentGameState != GameState.MainScreen)
+        {
+            if (!speedFX.isPlaying)
+                speedFX.Play();
+        }
+        else
+        {
+            if (speedFX.isPlaying)
+                speedFX.Stop();
+        }
 
         if (currentCar != null)
             transform.position = currentCar.playerSpot.position;
@@ -100,7 +111,7 @@ public class PlayerController : MonoBehaviour
         {
             Collider[] carsNearby = Physics.OverlapSphere(jumpMarker.transform.position, carDetectionRange, carLayer);
 
-            if (carsNearby[0].GetComponent<CarController>() != currentCar)
+            if (carsNearby[0].GetComponent<CarController>() != currentCar && !carsNearby[0].GetComponent<CarController>().hostingAI)
                 return carsNearby[0].GetComponent<CarController>();
             else
                 return null;

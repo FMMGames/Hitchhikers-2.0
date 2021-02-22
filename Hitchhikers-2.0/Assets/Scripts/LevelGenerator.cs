@@ -9,12 +9,16 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] GameObject[] tilePrefabs;
     [SerializeField] GameObject startTile, endTile;
     [SerializeField] int maxTiles;
+    [SerializeField] Material roadMat;
+    [SerializeField] Color[] roadColors;
     public float levelSize;
 
     [SerializeField] float tileSize;
 
     public void GenerateLevel()
     {
+        roadMat.color = roadColors[Random.Range(0, roadColors.Length)];
+
         for (int i = 0; i < maxTiles; i++)
         {
             Vector3 tilePos = new Vector3(transform.position.x, transform.position.y, transform.position.z + (tileSize * i));

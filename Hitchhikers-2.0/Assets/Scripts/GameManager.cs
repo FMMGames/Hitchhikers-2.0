@@ -127,7 +127,6 @@ public class GameManager : MonoBehaviour
             case 2:
                 {
                     currentGameState = GameState.EndScreen;
-                    Invoke("NextLevel", 15f);
                 }
                 break;
         }

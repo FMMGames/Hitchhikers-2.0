@@ -8,6 +8,7 @@ TagManager:
   - EndTile
   - Enemy
   - AI
+  - Ground
   layers:
   - Default
   - TransparentFX

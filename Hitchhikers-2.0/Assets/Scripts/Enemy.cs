@@ -5,24 +5,28 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public CarController myCar;
+    [SerializeField] GameObject GFX;
+    [SerializeField] GameObject deathFX;
+    [SerializeField] RagdollManager ragdoll;
     [SerializeField] Animator anim;
     [SerializeField] GameObject pistol, rifle;
-    [SerializeField] LayerMask racers;
+    [SerializeField] LayerMask racers, ground;
 
     [SerializeField] int type;
     [SerializeField] int moneyReward;
     [SerializeField] float detectionRange;
 
+    bool dead;
 
     private void OnEnable()
     {
-        type = Random.Range(0, 100);
+        type = Random.Range(0, 3);
 
-        if(type <= 50)
+        if(type <= 0)
             anim.SetBool("Melee", true);
         else
         {
-            if(type <= 25)
+            if(type <= 1)
             {
                 anim.SetBool("Rifle", true);
                 rifle.SetActive(true);
@@ -32,7 +36,9 @@ public class Enemy : MonoBehaviour
                 anim.SetBool("Pistol", true);
                 pistol.SetActive(true);
             }
-        }     
+        }
+
+        ragdoll.Setup();
     }
 
     private void Update()
@@ -43,6 +49,30 @@ public class Enemy : MonoBehaviour
 
             transform.LookAt(new Vector3(racersNearby[0].transform.position.x, transform.position.y, racersNearby[0].transform.position.z));
         }
+
+        RaycastHit hit;
+        if (Physics.Raycast(ragdoll.hip.transform.position, -transform.up, out hit, 0.5f, ground))
+        {
+            if (!dead)
+            {
+                Death();
+            }
+
+            dead = true;
+        }
+    }
+
+    void Death()
+    {
+        GFX.SetActive(false);
+        Instantiate(deathFX, ragdoll.hip.transform.position, deathFX.transform.rotation);
+        Destroy(gameObject, 10f);
+    }
+
+    void DeathCheck()
+    {
+        if (!dead)
+            Death();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -53,7 +83,8 @@ public class Enemy : MonoBehaviour
             GameManager.instance.EarnMoney(moneyReward);
             myCar.CoinFX();
             myCar.hostingEnemy = false;
-            Destroy(gameObject);
+            Invoke("DeathCheck", 10f);
+            ragdoll.ToggleRagdoll(other.transform.position);
         }
     }
 }

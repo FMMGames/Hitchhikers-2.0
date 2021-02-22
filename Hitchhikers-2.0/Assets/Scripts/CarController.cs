@@ -56,7 +56,7 @@ public class CarController : MonoBehaviour
         {
             if (col.bounds.Intersects(jumpRange.bounds) || jumpRange.bounds.Contains(transform.position))
             {
-                if (!hostingPlayer)
+                if (!hostingPlayer && !hostingAI)
                     ToggleSelectionRing(true);
                 else
                     ToggleSelectionRing(false);

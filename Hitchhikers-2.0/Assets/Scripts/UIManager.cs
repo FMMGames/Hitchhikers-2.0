@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject scorePrefab;
     [SerializeField] Image levelProgressionBar;
     [SerializeField] TextMeshProUGUI resultTitle, playerScoreDisplay, mainLevelDisplay, inGameLevelDisplay, progressCurrentLevelDisplay, progressNextLevelDisplay;
+    [SerializeField] TextMeshProUGUI tempRankDisplay, tempScoreDisplay;
 
     float temp;
 
@@ -47,6 +48,8 @@ public class UIManager : MonoBehaviour
             UpdateLevelProgressionBar();
         }
             UpdateScoreDisplay();
+
+        ShowTemporaryRank();
     }
 
     public void UpdateScreens()
@@ -106,5 +109,10 @@ public class UIManager : MonoBehaviour
     {
         GameObject s = Instantiate(scorePrefab, scoreBoard);
         s.GetComponent<ScoreUI>().SetupScore(rank, name, score);
+    }
+
+    public void ShowTemporaryRank()
+    {
+        tempScoreDisplay.text = GameManager.instance.racerScores[0].ToString();
     }
 }

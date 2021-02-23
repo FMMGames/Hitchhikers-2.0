@@ -17,12 +17,13 @@ public class GameManager : MonoBehaviour
 
     public GameState currentGameState;
     public int currentLevel = 1;
-    [Range(0,1)]
+    [Range(0, 1)][Tooltip("Anything above this makes them nearly unbeatable.")]
     public float AIDifficulty;
+    [Range(0, 1)]
     public float enemySpawnRate;
 
     [SerializeField] Camera mainCam;
-    [SerializeField] Transform startCamPos, inGameCamPos, endCamPos;
+    [SerializeField] Transform startCamPos, inGameCamPos, endCamPos, jumpCamPos;
     [SerializeField] float camTransitionSpeed;
 
     public float timeSinceLevelStart;
@@ -56,23 +57,25 @@ public class GameManager : MonoBehaviour
     {
         ChangeGameState(0);
         generator.GenerateLevel();
-        SetupRacers();        
+        SetupRacers();
     }
 
     void SetupRacers()
     {
-        for (int i = 0; i < racerNames.Length; i++)
+        for (int i = 0; i < racers.Length; i++)
         {
-            if (i == 0)
+            if (racers[i].name == playerName)
             {
                 racerNames[i] = playerName;
+                racers[i].name = playerName;
             }
             else
             {
                 racerNames[i] = allNames[Random.Range(0, allNames.Length)];
+                racers[i].name = racerNames[i];
             }
 
-            racers[i].racerIndex = i;
+            racers[i].racerIndex = i;            
         }
 
         for (int i = 0; i < racerScores.Length; i++)
@@ -97,20 +100,30 @@ public class GameManager : MonoBehaviour
 
     void ChangeCameraAngle()
     {
-        if(currentGameState == GameState.MainScreen)
+        if (currentGameState == GameState.MainScreen)
         {
             mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, startCamPos.position, camTransitionSpeed * Time.deltaTime);
             mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, startCamPos.rotation, camTransitionSpeed * Time.deltaTime);
         }
         else if (currentGameState == GameState.InGame)
         {
-            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, inGameCamPos.position, Time.deltaTime);
-            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, inGameCamPos.rotation, Time.deltaTime);
+            if (player.jumping)
+            {
+                Vector3 dir = (player.transform.position - mainCam.transform.position).normalized;
+
+                mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, jumpCamPos.position, camTransitionSpeed * Time.deltaTime);
+                mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, Quaternion.LookRotation(dir), camTransitionSpeed * Time.deltaTime);
+            }
+            else
+            {
+                mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, inGameCamPos.position, Time.deltaTime);
+                mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, inGameCamPos.rotation, Time.deltaTime);
+            }
         }
         else if (currentGameState == GameState.EndScreen)
         {
-            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, endCamPos.position, camTransitionSpeed*Time.deltaTime);
-            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, endCamPos.rotation, camTransitionSpeed*Time.deltaTime);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, endCamPos.position, camTransitionSpeed * Time.deltaTime);
+            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, endCamPos.rotation, camTransitionSpeed * Time.deltaTime);
         }
     }
 
@@ -143,22 +156,27 @@ public class GameManager : MonoBehaviour
     {
         ChangeGameState(2);
 
-        SortRacersByDescendingScore();
-
         if (racerNames[0] == playerName)
             UIManager.instance.UpdateResultScreen(true);
         else
             UIManager.instance.UpdateResultScreen(false);
 
+        Invoke("LevelEndScreen", 5f);
+
+        Invoke("CheckLevelEnd", 10f);
+    }
+
+    void LevelEndScreen()
+    {       
         PassScores();
     }
 
     public void NextLevel()
     {
-        ChangeGameState(0);
         currentLevel++;
-        player.ResetPlayer();
+        ChangeGameState(0);
         ResetAI();
+        player.ResetPlayer();
         ResetLevel();
         generator.GenerateLevel();
         SetupRacers();
@@ -166,6 +184,12 @@ public class GameManager : MonoBehaviour
         SaveProgress();
         UIManager.instance.EnableLoadingScreen();
         timeSinceLevelStart = 0;
+    }
+
+    public void CheckLevelEnd()
+    {
+        if (currentGameState == GameState.EndScreen)
+            NextLevel();
     }
 
     void LoadProgress()
@@ -208,12 +232,28 @@ public class GameManager : MonoBehaviour
 
     void ResetAI()
     {
-        for (int i = 1; i < racers.Length; i++)
+        int playerIndex = 0;
+
+        for (int i = 0; i < racers.Length; i++)
         {
-            if (i > 0)
+            if (racers[i].GetComponent<PlayerController>())
+                playerIndex = i;
+        }
+
+        for (int i = 0; i < racers.Length; i++)
+        {
+            if (racers[i].GetComponent<AIRacerController>())
             {
-                racers[i].transform.position = GameManager.instance.racerSpawnPoints[i].position;
-                racers[i].transform.rotation = GameManager.instance.racerSpawnPoints[i].rotation;
+                if(i == 0)
+                {
+                    racers[i].transform.position = GameManager.instance.racerSpawnPoints[playerIndex].position;
+                    racers[i].transform.rotation = GameManager.instance.racerSpawnPoints[playerIndex].rotation;
+                }
+                else
+                {
+                    racers[i].transform.position = GameManager.instance.racerSpawnPoints[i].position;
+                    racers[i].transform.rotation = GameManager.instance.racerSpawnPoints[i].rotation;
+                }
 
                 racers[i].GetComponent<AIRacerController>().currentCar = null;
                 racers[i].GetComponent<AIRacerController>().transform.parent = null;
@@ -259,6 +299,7 @@ public class GameManager : MonoBehaviour
     {
         int max;
         int temp;
+        Racer racerTemp;
         string nameTemp;
 
         for (int i = 0; i < racerScores.Length; i++)
@@ -274,8 +315,13 @@ public class GameManager : MonoBehaviour
             if (max != i)
             {
                 temp = racerScores[i];
+                racerTemp = racers[i];
+
                 racerScores[i] = racerScores[max];
+                racers[i] = racers[max];
+
                 racerScores[max] = temp;
+                racers[max] = racerTemp;
 
                 nameTemp = racerNames[i];
                 racerNames[i] = racerNames[max];
@@ -295,6 +341,10 @@ public class GameManager : MonoBehaviour
     public void EarnKillScore(int who)
     {
         racerScores[who]++;
+
+        SortRacersByDescendingScore();
+
+        UIManager.instance.ShowTemporaryRank();
     }
 
     public void EarnMoney(int amount)

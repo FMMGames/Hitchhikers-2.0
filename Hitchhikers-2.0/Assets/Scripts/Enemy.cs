@@ -65,8 +65,9 @@ public class Enemy : MonoBehaviour
     void Death()
     {
         GFX.SetActive(false);
-        Instantiate(deathFX, ragdoll.hip.transform.position, deathFX.transform.rotation);
-        Destroy(gameObject, 10f);
+        GameObject fx = Instantiate(deathFX, ragdoll.hip.transform.position, deathFX.transform.rotation);
+        Destroy(gameObject, 5f);
+        Destroy(fx, 2f);
     }
 
     void DeathCheck()
@@ -79,11 +80,12 @@ public class Enemy : MonoBehaviour
     {
         if(other.GetComponent<Racer>() && GameManager.instance.currentGameState == GameState.InGame)
         {
+            other.GetComponent<Racer>().UpdateIndex();
             GameManager.instance.EarnKillScore(other.GetComponent<Racer>().racerIndex);
             GameManager.instance.EarnMoney(moneyReward);
             myCar.CoinFX();
             myCar.hostingEnemy = false;
-            Invoke("DeathCheck", 10f);
+            Invoke("DeathCheck", 5f);
             ragdoll.ToggleRagdoll(other.transform.position);
         }
     }

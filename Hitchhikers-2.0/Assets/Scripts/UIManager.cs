@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
     public void EnableLoadingScreen()
     {
         loadingScreen.SetActive(true);
-        Invoke("DisableLoadingScreen", 3f);
+        Invoke("DisableLoadingScreen", 5f);
     }
 
     void DisableLoadingScreen()
@@ -48,8 +48,6 @@ public class UIManager : MonoBehaviour
             UpdateLevelProgressionBar();
         }
             UpdateScoreDisplay();
-
-        ShowTemporaryRank();
     }
 
     public void UpdateScreens()
@@ -77,6 +75,9 @@ public class UIManager : MonoBehaviour
         inGameLevelDisplay.text = "Lv. " + GameManager.instance.currentLevel;
         progressCurrentLevelDisplay.text = GameManager.instance.currentLevel.ToString();
         progressNextLevelDisplay.text = (GameManager.instance.currentLevel+1).ToString();
+
+        tempRankDisplay.text = " ";
+        tempScoreDisplay.text = "0";
     }
 
     private void UpdateLevelProgressionBar()
@@ -112,7 +113,14 @@ public class UIManager : MonoBehaviour
     }
 
     public void ShowTemporaryRank()
-    {
-        tempScoreDisplay.text = GameManager.instance.racerScores[0].ToString();
+    {      
+        for (int i = 0; i < GameManager.instance.racers.Length; i++)
+        {
+            if (GameManager.instance.racers[i].name == GameManager.instance.playerName)
+            {
+                tempScoreDisplay.text = GameManager.instance.racerScores[i].ToString();
+                tempRankDisplay.text = (i+1).ToString("0");
+            }
+        }
     }
 }

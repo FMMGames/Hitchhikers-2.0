@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float carDetectionRange, carJumpRange;
     [SerializeField] float slowmoSpeed, variationSpeed;
 
-    bool slowmo, jumping;
+    public bool slowmo, jumping;
   
     private void Update()
     {

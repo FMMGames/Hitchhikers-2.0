@@ -52,6 +52,12 @@ public class CarController : MonoBehaviour
         else
             gameObject.SetActive(false);
 
+        if (hostingPlayer)
+        {
+            if (mySelf.speed < 1.25f * moveSpeed * spdMultiplier)
+                mySelf.speed = Mathf.Lerp(mySelf.speed, 1.25f * moveSpeed * spdMultiplier, Time.deltaTime);
+        }
+
         if (jumpRange)
         {
             if (col.bounds.Intersects(jumpRange.bounds) || jumpRange.bounds.Contains(transform.position))

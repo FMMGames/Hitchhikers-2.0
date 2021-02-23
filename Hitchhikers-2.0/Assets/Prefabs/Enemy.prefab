@@ -663,7 +663,7 @@ MonoBehaviour:
     m_Bits: 256
   type: 0
   moneyReward: 55
-  detectionRange: 20
+  detectionRange: 35
 --- !u!114 &4112269724706831923
 MonoBehaviour:
   m_ObjectHideFlags: 0
